@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Drawing Program</title>
+    <title>Simple Drawing Program</title>
     <style>
         body {
             margin: 0;
@@ -18,6 +18,16 @@
             text-align: center;
             margin-top: 10px;
         }
+        #penSizeDisplay {
+            font-size: 16px;
+        }
+        #text {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -25,10 +35,15 @@
     <div id="controls">
         <input type="color" id="colorPicker" value="#000000">
         <input type="range" id="penSizeSlider" min="1" max="20" value="2">
+        <span id="penSizeDisplay">Pen Size: 2</span>
         <button id="clearCanvas">Clear Canvas</button>
         <button id="toggleEraser">Toggle Eraser</button>
         <button id="saveImage">Save as PNG</button>
+        <button id="toggleEffect">Toggle Glowing</button>
+        <button id="togglePixelArt">Switch to Pixel Art</button>
+        <input type="file" id="importPicture" accept="image/*">
     </div>
+    <div id="text">Artszili</div>
     <script>
         const canvas = document.getElementById('drawingCanvas');
         const context = canvas.getContext('2d');
@@ -36,6 +51,9 @@
         let erasing = false;
         let currentColor = '#000000';
         let penSize = 2;
+        let penEffect = 'normal';
+        let isPixelArt = false;
+        let cursorStyle = 'crosshair';
 
         const colorPicker = document.getElementById('colorPicker');
         colorPicker.addEventListener('input', (e) => {
@@ -45,6 +63,7 @@
         const penSizeSlider = document.getElementById('penSizeSlider');
         penSizeSlider.addEventListener('input', (e) => {
             penSize = parseInt(e.target.value);
+            updatePenSizeDisplay();
         });
 
         const clearCanvasButton = document.getElementById('clearCanvas');
@@ -56,29 +75,53 @@
         const saveImageButton = document.getElementById('saveImage');
         saveImageButton.addEventListener('click', saveImage);
 
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mousemove', draw);
+        const penSizeDisplay = document.getElementById('penSizeDisplay');
 
-        function startDrawing(event) {
+        const toggleEffectButton = document.getElementById('toggleEffect');
+        toggleEffectButton.addEventListener('click', toggleEffect);
+
+        const togglePixelArtButton = document.getElementById('togglePixelArt');
+        togglePixelArtButton.addEventListener('click', togglePixelArt);
+
+        const importPictureInput = document.getElementById('importPicture');
+        importPictureInput.addEventListener('change', handleImageUpload);
+
+        canvas.addEventListener('mousedown', () => {
             drawing = true;
             context.beginPath();
-            context.moveTo(event.clientX - canvas.getBoundingClientRect().left, event.clientY - canvas.getBoundingClientRect().top);
-        }
+        });
 
-        function stopDrawing() {
+        canvas.addEventListener('mouseup', () => {
             drawing = false;
             context.closePath();
-        }
+        });
+
+        canvas.addEventListener('mousemove', draw);
+
+        canvas.style.cursor = cursorStyle;
 
         function draw(event) {
             if (!drawing) return;
+
+            context.strokeStyle = currentColor;
+            context.lineWidth = penSize;
+
             if (erasing) {
-                context.strokeStyle = 'white'; // Set the color to white for erasing
-                context.lineWidth = penSize * 2; // Adjust the eraser size
+                context.globalCompositeOperation = 'destination-out';
             } else {
-                context.strokeStyle = currentColor;
-                context.lineWidth = penSize; // Set the line width based on the pen size
+                context.globalCompositeOperation = 'source-over';
+            }
+
+            if (penEffect === 'glowing') {
+                context.shadowBlur = 10;
+                context.shadowColor = currentColor;
+            } else {
+                context.shadowBlur = 0;
+            }
+
+            if (!drawing) {
+                context.beginPath();
+                context.moveTo(event.clientX - canvas.getBoundingClientRect().left, event.clientY - canvas.getBoundingClientRect().top);
             }
 
             context.lineTo(event.clientX - canvas.getBoundingClientRect().left, event.clientY - canvas.getBoundingClientRect().top);
@@ -104,6 +147,53 @@
             link.href = imgData;
             link.download = 'drawing.png';
             link.click();
+        }
+
+        function updatePenSizeDisplay() {
+            penSizeDisplay.textContent = `Pen Size: ${penSize}`;
+        }
+
+        function toggleEffect() {
+            penEffect = penEffect === 'normal' ? 'glowing' : 'normal';
+            if (penEffect === 'glowing') {
+                toggleEffectButton.textContent = 'Toggle Normal';
+            } else {
+                toggleEffectButton.textContent = 'Toggle Glowing';
+            }
+        }
+
+        function togglePixelArt() {
+            isPixelArt = !isPixelArt;
+            if (isPixelArt) {
+                toggleEffectButton.style.display = 'none';
+                cursorStyle = 'cell';
+            } else {
+                toggleEffectButton.style.display = 'inline';
+                cursorStyle = 'crosshair';
+            }
+            canvas.style.cursor = cursorStyle;
+
+            if (isPixelArt) {
+                canvas.style.imageRendering = 'pixelated';
+            } else {
+                canvas.style.imageRendering = 'auto';
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.onload = function () {
+                        clearCanvas();
+                        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
         }
     </script>
 </body>
