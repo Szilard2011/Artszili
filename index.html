@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Drawing Program</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        canvas {
+            display: block;
+            background-color: white;
+            margin: 0 auto;
+        }
+        #controls {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="drawingCanvas" width="800" height="600"></canvas>
+    <div id="controls">
+        <input type="color" id="colorPicker" value="#000000">
+        <input type="range" id="penSizeSlider" min="1" max="20" value="2">
+        <button id="clearCanvas">Clear Canvas</button>
+        <button id="toggleEraser">Toggle Eraser</button>
+        <button id="saveImage">Save as PNG</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const context = canvas.getContext('2d');
+        let drawing = false;
+        let erasing = false;
+        let currentColor = '#000000';
+        let penSize = 2;
+
+        const colorPicker = document.getElementById('colorPicker');
+        colorPicker.addEventListener('input', (e) => {
+            currentColor = e.target.value;
+        });
+
+        const penSizeSlider = document.getElementById('penSizeSlider');
+        penSizeSlider.addEventListener('input', (e) => {
+            penSize = parseInt(e.target.value);
+        });
+
+        const clearCanvasButton = document.getElementById('clearCanvas');
+        clearCanvasButton.addEventListener('click', clearCanvas);
+
+        const toggleEraserButton = document.getElementById('toggleEraser');
+        toggleEraserButton.addEventListener('click', toggleEraser);
+
+        const saveImageButton = document.getElementById('saveImage');
+        saveImageButton.addEventListener('click', saveImage);
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mousemove', draw);
+
+        function startDrawing(event) {
+            drawing = true;
+            context.beginPath();
+            context.moveTo(event.clientX - canvas.getBoundingClientRect().left, event.clientY - canvas.getBoundingClientRect().top);
+        }
+
+        function stopDrawing() {
+            drawing = false;
+            context.closePath();
+        }
+
+        function draw(event) {
+            if (!drawing) return;
+            if (erasing) {
+                context.strokeStyle = 'white'; // Set the color to white for erasing
+                context.lineWidth = penSize * 2; // Adjust the eraser size
+            } else {
+                context.strokeStyle = currentColor;
+                context.lineWidth = penSize; // Set the line width based on the pen size
+            }
+
+            context.lineTo(event.clientX - canvas.getBoundingClientRect().left, event.clientY - canvas.getBoundingClientRect().top);
+            context.stroke();
+        }
+
+        function clearCanvas() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function toggleEraser() {
+            erasing = !erasing;
+            if (erasing) {
+                toggleEraserButton.textContent = 'Toggle Pencil';
+            } else {
+                toggleEraserButton.textContent = 'Toggle Eraser';
+            }
+        }
+
+        function saveImage() {
+            const imgData = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = imgData;
+            link.download = 'drawing.png';
+            link.click();
+        }
+    </script>
+</body>
+</html>
