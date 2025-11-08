@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artszili - Creative Drawing Studio</title>
+    <title>Pálnagy Szilárd - Art Studio</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Comic Sans MS', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -21,27 +21,58 @@
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px 30px;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.98);
+            padding: 20px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             display: flex;
             justify-content: space-between;
             align-items: center;
             backdrop-filter: blur(10px);
+            border-bottom: 3px solid #667eea;
         }
 
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .artist-name {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         .header-actions {
             display: flex;
             gap: 10px;
+            align-items: center;
+        }
+
+        .theme-switcher {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .theme-switcher:hover {
+            transform: scale(1.05);
         }
 
         .main-container {
@@ -49,30 +80,29 @@
             flex: 1;
             padding: 20px;
             gap: 20px;
-            max-width: 1600px;
+            max-width: 1800px;
             width: 100%;
             margin: 0 auto;
         }
 
         .sidebar {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 20px;
-            width: 280px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            width: 320px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             backdrop-filter: blur(10px);
-            max-height: calc(100vh - 120px);
+            max-height: calc(100vh - 150px);
             overflow-y: auto;
-            transition: transform 0.3s ease;
         }
 
         .sidebar::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
 
         .sidebar::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 3px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
         }
 
         .canvas-container {
@@ -86,14 +116,20 @@
 
         canvas {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
             cursor: crosshair;
             touch-action: none;
         }
 
+        canvas.pixel-mode {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
         .tool-section {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             animation: slideIn 0.5s ease;
         }
 
@@ -109,31 +145,31 @@
         }
 
         .section-title {
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 16px;
+            font-weight: 800;
             color: #333;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
         }
 
         .tool-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+            gap: 10px;
         }
 
         .tool-btn {
-            padding: 12px;
-            border: 2px solid #e0e0e0;
+            padding: 15px;
+            border: 3px solid #e0e0e0;
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 20px;
-            transition: all 0.2s ease;
+            font-size: 22px;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -141,8 +177,8 @@
         }
 
         .tool-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
             border-color: #667eea;
         }
 
@@ -150,93 +186,108 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-color: transparent;
+            transform: scale(1.05);
         }
 
         .color-palette {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .color-swatch {
             width: 100%;
             aspect-ratio: 1;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.2s ease;
+            border: 4px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
         .color-swatch:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .color-swatch.active {
             border-color: #333;
-            transform: scale(1.1);
+            transform: scale(1.2);
+        }
+
+        .color-swatch.active::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 3px black;
         }
 
         .color-input-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
         }
 
         input[type="color"] {
-            width: 60px;
-            height: 40px;
+            width: 70px;
+            height: 50px;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
         }
 
         input[type="range"] {
             flex: 1;
-            height: 6px;
-            border-radius: 3px;
+            height: 8px;
+            border-radius: 10px;
             outline: none;
             -webkit-appearance: none;
-            background: linear-gradient(to right, #667eea, #764ba2);
+            background: linear-gradient(to right, #667eea, #764ba2, #f093fb);
         }
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             background: white;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            border: 3px solid #667eea;
             transition: transform 0.2s ease;
         }
 
         input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
+            transform: scale(1.3);
         }
 
         .slider-value {
-            font-weight: 600;
+            font-weight: 800;
             color: #667eea;
-            min-width: 35px;
+            min-width: 40px;
             text-align: center;
+            font-size: 16px;
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             justify-content: center;
             width: 100%;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .btn-primary {
@@ -245,68 +296,61 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
         }
 
         .btn-secondary {
             background: #f5f5f5;
             color: #333;
+            border: 2px solid #e0e0e0;
         }
 
         .btn-secondary:hover {
             background: #e0e0e0;
+            transform: translateY(-2px);
         }
 
         .btn-danger {
-            background: #ff4757;
+            background: linear-gradient(135deg, #ff4757, #ff6348);
             color: white;
         }
 
         .btn-danger:hover {
-            background: #ff3838;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
-        }
-
-        .shape-tools {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .history-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            background: linear-gradient(135deg, #ff3838, #ff5533);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.5);
         }
 
         .canvas-info {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 13px;
             backdrop-filter: blur(10px);
+            font-weight: bold;
         }
 
         .tooltip {
             position: absolute;
-            bottom: -30px;
+            bottom: -35px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
             white-space: nowrap;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            font-weight: bold;
         }
 
         .tool-btn:hover .tooltip {
@@ -318,30 +362,25 @@
         }
 
         .file-label {
-            padding: 10px 20px;
-            border: 2px dashed #667eea;
-            border-radius: 8px;
+            padding: 12px 20px;
+            border: 3px dashed #667eea;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             justify-content: center;
-            background: rgba(102, 126, 234, 0.05);
+            background: rgba(102, 126, 234, 0.1);
             color: #667eea;
         }
 
         .file-label:hover {
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(102, 126, 234, 0.2);
             border-style: solid;
-        }
-
-        .effects-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            transform: translateY(-2px);
         }
 
         .modal {
@@ -351,7 +390,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -363,25 +402,90 @@
 
         .modal-content {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 400px;
+            padding: 35px;
+            border-radius: 20px;
+            max-width: 500px;
             width: 90%;
             animation: slideIn 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
 
-        .canvas-size-inputs {
+        .modal-content h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .keyboard-hint {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #667eea;
+            line-height: 1.8;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .sticker-btn {
+            padding: 10px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .sticker-btn:hover {
+            transform: scale(1.2);
+            border-color: #667eea;
+        }
+
+        .rainbow-text {
+            animation: rainbow 3s infinite;
+        }
+
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .filter-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 8px;
         }
 
-        .canvas-size-inputs input {
-            padding: 10px;
+        .pattern-preview {
+            width: 100%;
+            height: 40px;
             border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pattern-preview:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .pattern-preview.active {
+            border-color: #667eea;
+            border-width: 3px;
+        }
+
+        .symmetry-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
         }
 
         @media (max-width: 768px) {
@@ -394,153 +498,247 @@
                 max-height: none;
             }
 
-            .header {
-                padding: 10px 15px;
+            .artist-name {
+                font-size: 24px;
             }
         }
 
-        .keyboard-hint {
-            background: rgba(102, 126, 234, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 11px;
-            color: #667eea;
-            line-height: 1.6;
+        .color-history {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+            flex-wrap: wrap;
         }
 
-        .download-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
+        .history-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            transition: transform 0.2s;
+        }
+
+        .history-color:hover {
+            transform: scale(1.2);
+        }
+
+        .text-input-container {
+            display: none;
+            position: absolute;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        .text-input-container input {
+            padding: 10px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 250px;
+        }
+
+        .gradient-preview {
+            height: 30px;
+            border-radius: 6px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo">🎨 Artszili Studio</div>
+        <div class="logo-section">
+            <div class="artist-name">Pálnagy Szilárd</div>
+            <div class="tagline">where imagination meets pixels ✨</div>
+        </div>
         <div class="header-actions">
-            <button class="btn btn-secondary" id="helpBtn">❓ Help</button>
+            <button class="theme-switcher" id="themeBtn">🌙 Night Mode</button>
+            <button class="theme-switcher" id="helpBtn">💡 Help</button>
         </div>
     </div>
 
     <div class="main-container">
         <div class="sidebar">
             <div class="tool-section">
-                <div class="section-title">🖌️ Tools</div>
+                <div class="section-title">🎨 drawing tools</div>
                 <div class="tool-grid">
                     <button class="tool-btn active" data-tool="brush">
                         ✏️
-                        <span class="tooltip">Brush (B)</span>
+                        <span class="tooltip">brush</span>
                     </button>
                     <button class="tool-btn" data-tool="eraser">
                         🧹
-                        <span class="tooltip">Eraser (E)</span>
+                        <span class="tooltip">eraser</span>
                     </button>
                     <button class="tool-btn" data-tool="spray">
                         💨
-                        <span class="tooltip">Spray (S)</span>
+                        <span class="tooltip">spray paint</span>
                     </button>
                     <button class="tool-btn" data-tool="calligraphy">
                         🖋️
-                        <span class="tooltip">Calligraphy (C)</span>
+                        <span class="tooltip">calligraphy</span>
                     </button>
                     <button class="tool-btn" data-tool="fill">
                         🪣
-                        <span class="tooltip">Fill Bucket (F)</span>
+                        <span class="tooltip">paint bucket</span>
                     </button>
                     <button class="tool-btn" data-tool="eyedropper">
                         💉
-                        <span class="tooltip">Eyedropper (I)</span>
+                        <span class="tooltip">color picker</span>
                     </button>
-                    <button class="tool-btn" data-tool="line">
-                        📏
-                        <span class="tooltip">Line (L)</span>
+                    <button class="tool-btn" data-tool="blur">
+                        🌫️
+                        <span class="tooltip">blur tool</span>
                     </button>
-                    <button class="tool-btn" data-tool="rectangle">
-                        ⬜
-                        <span class="tooltip">Rectangle (R)</span>
-                    </button>
-                    <button class="tool-btn" data-tool="circle">
-                        ⭕
-                        <span class="tooltip">Circle (O)</span>
-                    </button>
-                    <button class="tool-btn" data-tool="star">
-                        ⭐
-                        <span class="tooltip">Star</span>
+                    <button class="tool-btn" data-tool="text">
+                        📝
+                        <span class="tooltip">text tool</span>
                     </button>
                 </div>
             </div>
 
             <div class="tool-section">
-                <div class="section-title">🎨 Colors</div>
+                <div class="section-title">⭐ shapes n' stuff</div>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-tool="line">
+                        📏
+                        <span class="tooltip">straight line</span>
+                    </button>
+                    <button class="tool-btn" data-tool="rectangle">
+                        ⬜
+                        <span class="tooltip">rectangle</span>
+                    </button>
+                    <button class="tool-btn" data-tool="circle">
+                        ⭕
+                        <span class="tooltip">circle</span>
+                    </button>
+                    <button class="tool-btn" data-tool="star">
+                        ⭐
+                        <span class="tooltip">star</span>
+                    </button>
+                    <button class="tool-btn" data-tool="heart">
+                        ❤️
+                        <span class="tooltip">heart</span>
+                    </button>
+                    <button class="tool-btn" data-tool="gradient">
+                        🌈
+                        <span class="tooltip">gradient</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tool-section">
+                <div class="section-title">🌈 color magic</div>
                 <div class="color-palette" id="colorPalette"></div>
                 <div class="color-input-group">
                     <input type="color" id="colorPicker" value="#000000">
                     <input type="color" id="bgColorPicker" value="#ffffff">
-                    <button class="btn btn-secondary" id="swapColors" style="padding: 8px;">🔄</button>
+                    <button class="btn btn-secondary" id="swapColors" style="padding: 10px;">🔄</button>
+                    <button class="btn btn-secondary" id="randomColor" style="padding: 10px;">🎲</button>
                 </div>
+                <div class="color-history" id="colorHistory"></div>
             </div>
 
             <div class="tool-section">
-                <div class="section-title">⚙️ Brush Settings</div>
-                <div style="margin-bottom: 10px;">
-                    <div style="font-size: 12px; margin-bottom: 5px; color: #666;">Size: <span class="slider-value" id="sizeValue">5</span></div>
-                    <input type="range" id="brushSize" min="1" max="50" value="5">
+                <div class="section-title">🎯 brush vibes</div>
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 13px; margin-bottom: 8px; color: #666;">size: <span class="slider-value" id="sizeValue">5</span></div>
+                    <input type="range" id="brushSize" min="1" max="100" value="5">
                 </div>
-                <div>
-                    <div style="font-size: 12px; margin-bottom: 5px; color: #666;">Opacity: <span class="slider-value" id="opacityValue">100%</span></div>
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 13px; margin-bottom: 8px; color: #666;">opacity: <span class="slider-value" id="opacityValue">100%</span></div>
                     <input type="range" id="opacity" min="0" max="100" value="100">
                 </div>
+                <div>
+                    <div style="font-size: 13px; margin-bottom: 8px; color: #666;">brush pattern:</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                        <canvas class="pattern-preview active" data-pattern="circle" width="60" height="30"></canvas>
+                        <canvas class="pattern-preview" data-pattern="square" width="60" height="30"></canvas>
+                        <canvas class="pattern-preview" data-pattern="star" width="60" height="30"></canvas>
+                    </div>
+                </div>
             </div>
 
             <div class="tool-section">
-                <div class="section-title">✨ Effects</div>
-                <div class="effects-grid">
+                <div class="section-title">✨ cool effects</div>
+                <div class="tool-grid">
                     <button class="tool-btn" id="glowEffect">
-                        ✨ Glow
+                        💫
+                        <span class="tooltip">glow mode</span>
                     </button>
-                    <button class="tool-btn" id="mirrorMode">
-                        🪞 Mirror
+                    <button class="tool-btn" id="rainbowMode">
+                        🌈
+                        <span class="tooltip">rainbow!</span>
                     </button>
                     <button class="tool-btn" id="gridToggle">
-                        ⊞ Grid
+                        ⊞
+                        <span class="tooltip">grid lines</span>
                     </button>
                     <button class="tool-btn" id="pixelMode">
-                        🟦 Pixel
+                        🟦
+                        <span class="tooltip">pixel art</span>
                     </button>
                 </div>
             </div>
 
             <div class="tool-section">
-                <div class="section-title">⏱️ History</div>
-                <div class="history-btns">
-                    <button class="btn btn-secondary" id="undoBtn">↶ Undo</button>
-                    <button class="btn btn-secondary" id="redoBtn">↷ Redo</button>
+                <div class="section-title">🪞 symmetry fun</div>
+                <div class="symmetry-options">
+                    <button class="tool-btn" id="symmetry2">2x</button>
+                    <button class="tool-btn" id="symmetry4">4x</button>
+                    <button class="tool-btn" id="symmetry8">8x</button>
                 </div>
             </div>
 
             <div class="tool-section">
-                <div class="section-title">💾 File</div>
+                <div class="section-title">🎭 filters</div>
+                <div class="filter-grid">
+                    <button class="btn btn-secondary" id="filterGray">grayscale</button>
+                    <button class="btn btn-secondary" id="filterSepia">sepia</button>
+                    <button class="btn btn-secondary" id="filterInvert">invert</button>
+                    <button class="btn btn-secondary" id="filterBlur">blur it</button>
+                </div>
+            </div>
+
+            <div class="tool-section">
+                <div class="section-title">😊 stickers</div>
+                <div class="sticker-grid" id="stickerGrid"></div>
+            </div>
+
+            <div class="tool-section">
+                <div class="section-title">⏱️ time travel</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="btn btn-secondary" id="undoBtn">↶ undo</button>
+                    <button class="btn btn-secondary" id="redoBtn">↷ redo</button>
+                </div>
+            </div>
+
+            <div class="tool-section">
+                <div class="section-title">💾 save & load</div>
                 <label for="importImage" class="file-label">
-                    📁 Import Image
+                    📁 load image
                 </label>
                 <input type="file" id="importImage" accept="image/*">
                 
-                <div class="download-options">
-                    <button class="btn btn-primary" id="savePNG">PNG</button>
-                    <button class="btn btn-primary" id="saveJPG">JPG</button>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button class="btn btn-primary" id="savePNG">💾 PNG</button>
+                    <button class="btn btn-primary" id="saveJPG">💾 JPG</button>
                 </div>
                 
-                <button class="btn btn-secondary" id="canvasSizeBtn">📐 Canvas Size</button>
-                <button class="btn btn-danger" id="clearBtn">🗑️ Clear All</button>
+                <button class="btn btn-secondary" id="canvasSizeBtn">📐 canvas size</button>
+                <button class="btn btn-danger" id="clearBtn">🗑️ clear everything</button>
             </div>
 
             <div class="tool-section">
                 <div class="keyboard-hint">
-                    <strong>Shortcuts:</strong><br>
-                    Ctrl+Z: Undo | Ctrl+Y: Redo<br>
-                    Ctrl+S: Save | Ctrl+C: Clear<br>
-                    +/- : Brush Size
+                    <strong>⌨️ shortcuts:</strong><br>
+                    ctrl+z = undo | ctrl+y = redo<br>
+                    ctrl+s = save | + / - = brush size<br>
+                    hold shift = straight lines!
                 </div>
             </div>
         </div>
@@ -549,20 +747,25 @@
             <canvas id="drawingCanvas" width="1000" height="700"></canvas>
             <div class="canvas-info">
                 <span id="canvasSize">1000 × 700</span> | 
-                <span id="cursorPos">X: 0, Y: 0</span>
+                <span id="cursorPos">x: 0, y: 0</span>
+            </div>
+            <div class="text-input-container" id="textInputContainer">
+                <input type="text" id="textInput" placeholder="type something cool...">
+                <input type="number" id="textSize" value="30" min="10" max="200" placeholder="size">
+                <button class="btn btn-primary" id="addText">add text!</button>
             </div>
         </div>
     </div>
 
     <div class="modal" id="canvasSizeModal">
         <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">Canvas Size</h2>
-            <div class="canvas-size-inputs">
-                <input type="number" id="canvasWidth" placeholder="Width" value="1000">
-                <input type="number" id="canvasHeight" placeholder="Height" value="700">
+            <h2>✨ change canvas size</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+                <input type="number" id="canvasWidth" placeholder="width" value="1000" style="padding: 12px; border: 2px solid #667eea; border-radius: 10px; font-size: 16px;">
+                <input type="number" id="canvasHeight" placeholder="height" value="700" style="padding: 12px; border: 2px solid #667eea; border-radius: 10px; font-size: 16px;">
             </div>
-            <button class="btn btn-primary" id="applySize">Apply</button>
-            <button class="btn btn-secondary" id="cancelSize">Cancel</button>
+            <button class="btn btn-primary" id="applySize">let's go!</button>
+            <button class="btn btn-secondary" id="cancelSize">nah, nevermind</button>
         </div>
     </div>
 
@@ -579,20 +782,33 @@
         let history = [];
         let historyStep = -1;
         let glowEnabled = false;
-        let mirrorEnabled = false;
+        let rainbowMode = false;
         let gridEnabled = false;
         let pixelMode = false;
+        let symmetryMode = 0;
         let startX, startY;
         let isShapeDrawing = false;
+        let colorHistory = [];
+        let brushPattern = 'circle';
+        let rainbowHue = 0;
+        let textX = 0;
+        let textY = 0;
+        let isDarkMode = false;
         
         const colors = [
             '#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00',
             '#FF00FF', '#00FFFF', '#FFA500', '#800080', '#008000', '#FFC0CB',
-            '#A52A2A', '#808080', '#FFD700', '#4B0082', '#FF6347', '#40E0D0'
+            '#A52A2A', '#808080', '#FFD700', '#4B0082', '#FF6347', '#40E0D0',
+            '#E91E63', '#9C27B0', '#3F51B5', '#2196F3', '#00BCD4', '#4CAF50'
         ];
+
+        const stickers = ['😀', '😎', '🔥', '⭐', '❤️', '🎨', '🌈', '✨', '🎭', '🎪', 
+                         '🎯', '🎲', '🎸', '🎹', '🚀', '🌙', '☀️', '🌸', '🍕', '🍦'];
 
         function init() {
             createColorPalette();
+            createStickerGrid();
+            drawPatternPreviews();
             saveState();
             setupEventListeners();
             setCanvasBackground();
@@ -610,11 +826,59 @@
             });
         }
 
+        function createStickerGrid() {
+            const grid = document.getElementById('stickerGrid');
+            stickers.forEach(sticker => {
+                const btn = document.createElement('button');
+                btn.className = 'sticker-btn';
+                btn.textContent = sticker;
+                btn.onclick = () => placeSticker(sticker);
+                grid.appendChild(btn);
+            });
+        }
+
+        function drawPatternPreviews() {
+            document.querySelectorAll('.pattern-preview').forEach(preview => {
+                const ctx = preview.getContext('2d');
+                const pattern = preview.dataset.pattern;
+                ctx.fillStyle = '#667eea';
+                
+                if (pattern === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(30, 15, 8, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (pattern === 'square') {
+                    ctx.fillRect(22, 7, 16, 16);
+                } else if (pattern === 'star') {
+                    drawStar(ctx, 30, 15, 5, 10, 5);
+                    ctx.fill();
+                }
+            });
+        }
+
         function selectColor(color, element) {
             currentColor = color;
             document.getElementById('colorPicker').value = color;
             document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
             if (element) element.classList.add('active');
+            
+            if (!colorHistory.includes(color)) {
+                colorHistory.unshift(color);
+                if (colorHistory.length > 10) colorHistory.pop();
+                updateColorHistory();
+            }
+        }
+
+        function updateColorHistory() {
+            const historyContainer = document.getElementById('colorHistory');
+            historyContainer.innerHTML = '';
+            colorHistory.forEach(color => {
+                const div = document.createElement('div');
+                div.className = 'history-color';
+                div.style.backgroundColor = color;
+                div.onclick = () => selectColor(color);
+                historyContainer.appendChild(div);
+            });
         }
 
         function setupEventListeners() {
@@ -648,6 +912,11 @@
                 setCanvasBackground();
             });
 
+            document.getElementById('randomColor').addEventListener('click', () => {
+                const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+                selectColor(randomColor);
+            });
+
             document.getElementById('brushSize').addEventListener('input', (e) => {
                 brushSize = parseInt(e.target.value);
                 document.getElementById('sizeValue').textContent = brushSize;
@@ -656,6 +925,14 @@
             document.getElementById('opacity').addEventListener('input', (e) => {
                 opacity = parseInt(e.target.value) / 100;
                 document.getElementById('opacityValue').textContent = e.target.value + '%';
+            });
+
+            document.querySelectorAll('.pattern-preview').forEach(preview => {
+                preview.addEventListener('click', function() {
+                    document.querySelectorAll('.pattern-preview').forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                    brushPattern = this.dataset.pattern;
+                });
             });
 
             document.getElementById('undoBtn').addEventListener('click', undo);
@@ -672,22 +949,55 @@
                 this.classList.toggle('active');
             });
 
-            document.getElementById('mirrorMode').addEventListener('click', function() {
-                mirrorEnabled = !mirrorEnabled;
+            document.getElementById('rainbowMode').addEventListener('click', function() {
+                rainbowMode = !rainbowMode;
                 this.classList.toggle('active');
+                if (rainbowMode) {
+                    this.classList.add('rainbow-text');
+                } else {
+                    this.classList.remove('rainbow-text');
+                }
             });
 
             document.getElementById('gridToggle').addEventListener('click', function() {
                 gridEnabled = !gridEnabled;
                 this.classList.toggle('active');
-                drawGrid();
+                if (gridEnabled) {
+                    drawGrid();
+                } else {
+                    ctx.putImageData(history[historyStep], 0, 0);
+                }
             });
 
             document.getElementById('pixelMode').addEventListener('click', function() {
                 pixelMode = !pixelMode;
                 this.classList.toggle('active');
-                canvas.style.imageRendering = pixelMode ? 'pixelated' : 'auto';
+                if (pixelMode) {
+                    canvas.classList.add('pixel-mode');
+                    brushSize = Math.max(10, brushSize);
+                    document.getElementById('brushSize').value = brushSize;
+                    document.getElementById('sizeValue').textContent = brushSize;
+                } else {
+                    canvas.classList.remove('pixel-mode');
+                }
             });
+
+            document.getElementById('symmetry2').addEventListener('click', function() {
+                toggleSymmetry(2, this);
+            });
+
+            document.getElementById('symmetry4').addEventListener('click', function() {
+                toggleSymmetry(4, this);
+            });
+
+            document.getElementById('symmetry8').addEventListener('click', function() {
+                toggleSymmetry(8, this);
+            });
+
+            document.getElementById('filterGray').addEventListener('click', () => applyFilter('grayscale'));
+            document.getElementById('filterSepia').addEventListener('click', () => applyFilter('sepia'));
+            document.getElementById('filterInvert').addEventListener('click', () => applyFilter('invert'));
+            document.getElementById('filterBlur').addEventListener('click', () => applyFilter('blur'));
 
             document.getElementById('canvasSizeBtn').addEventListener('click', () => {
                 document.getElementById('canvasSizeModal').classList.add('active');
@@ -698,7 +1008,25 @@
                 document.getElementById('canvasSizeModal').classList.remove('active');
             });
 
+            document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+            document.getElementById('helpBtn').addEventListener('click', showHelp);
+
+            document.getElementById('addText').addEventListener('click', addTextToCanvas);
+
             document.addEventListener('keydown', handleKeyboard);
+        }
+
+        function toggleSymmetry(mode, element) {
+            document.querySelectorAll('.symmetry-options .tool-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (symmetryMode === mode) {
+                symmetryMode = 0;
+            } else {
+                symmetryMode = mode;
+                element.classList.add('active');
+            }
         }
 
         function selectTool(tool, element) {
@@ -708,8 +1036,8 @@
             });
             if (element) element.classList.add('active');
             
-            if (tool === 'eyedropper') {
-                canvas.style.cursor = 'crosshair';
+            if (tool === 'text') {
+                canvas.style.cursor = 'text';
             } else {
                 canvas.style.cursor = 'crosshair';
             }
@@ -719,6 +1047,18 @@
             isDrawing = true;
             const pos = getMousePos(e);
             
+            if (currentTool === 'text') {
+                textX = pos.x;
+                textY = pos.y;
+                const container = document.getElementById('textInputContainer');
+                container.style.display = 'block';
+                container.style.left = e.clientX + 'px';
+                container.style.top = e.clientY + 'px';
+                document.getElementById('textInput').focus();
+                isDrawing = false;
+                return;
+            }
+
             if (currentTool === 'eyedropper') {
                 pickColor(pos.x, pos.y);
                 isDrawing = false;
@@ -732,7 +1072,7 @@
                 return;
             }
 
-            if (['line', 'rectangle', 'circle', 'star'].includes(currentTool)) {
+            if (['line', 'rectangle', 'circle', 'star', 'heart', 'gradient'].includes(currentTool)) {
                 startX = pos.x;
                 startY = pos.y;
                 isShapeDrawing = true;
@@ -753,6 +1093,11 @@
                 return;
             }
 
+            if (rainbowMode) {
+                rainbowHue = (rainbowHue + 2) % 360;
+                currentColor = `hsl(${rainbowHue}, 100%, 50%)`;
+            }
+
             ctx.globalAlpha = opacity;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
@@ -760,37 +1105,76 @@
             if (currentTool === 'eraser') {
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.lineWidth = brushSize * 2;
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
             } else {
                 ctx.globalCompositeOperation = 'source-over';
                 ctx.strokeStyle = currentColor;
+                ctx.fillStyle = currentColor;
                 ctx.lineWidth = brushSize;
-            }
 
-            if (glowEnabled && currentTool !== 'eraser') {
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = currentColor;
-            } else {
-                ctx.shadowBlur = 0;
-            }
-
-            if (currentTool === 'brush') {
-                ctx.lineTo(pos.x, pos.y);
-                ctx.stroke();
-                
-                if (mirrorEnabled) {
-                    drawMirrored(pos.x, pos.y);
+                if (glowEnabled) {
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = currentColor;
+                } else {
+                    ctx.shadowBlur = 0;
                 }
-            } else if (currentTool === 'spray') {
-                spray(pos.x, pos.y);
-            } else if (currentTool === 'calligraphy') {
-                calligraphy(pos.x, pos.y);
-            } else if (currentTool === 'eraser') {
-                ctx.lineTo(pos.x, pos.y);
-                ctx.stroke();
+
+                if (currentTool === 'brush') {
+                    if (pixelMode) {
+                        const gridSize = brushSize;
+                        const gridX = Math.floor(pos.x / gridSize) * gridSize;
+                        const gridY = Math.floor(pos.y / gridSize) * gridSize;
+                        ctx.fillRect(gridX, gridY, gridSize, gridSize);
+                    } else {
+                        drawBrushStroke(pos.x, pos.y);
+                    }
+                    
+                    if (symmetryMode > 0) {
+                        drawSymmetrical(pos.x, pos.y);
+                    }
+                } else if (currentTool === 'spray') {
+                    spray(pos.x, pos.y);
+                } else if (currentTool === 'calligraphy') {
+                    calligraphy(pos.x, pos.y);
+                } else if (currentTool === 'blur') {
+                    applyBlurAt(pos.x, pos.y);
+                }
             }
 
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
+        }
+
+        function drawBrushStroke(x, y) {
+            if (brushPattern === 'circle') {
+                ctx.beginPath();
+                ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (brushPattern === 'square') {
+                ctx.fillRect(x - brushSize / 2, y - brushSize / 2, brushSize, brushSize);
+            } else if (brushPattern === 'star') {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.beginPath();
+                drawStarPath(0, 0, 5, brushSize / 2, brushSize / 4);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function drawSymmetrical(x, y) {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            for (let i = 1; i < symmetryMode; i++) {
+                const angle = (Math.PI * 2 * i) / symmetryMode;
+                const dx = x - centerX;
+                const dy = y - centerY;
+                const newX = centerX + dx * Math.cos(angle) - dy * Math.sin(angle);
+                const newY = centerY + dx * Math.sin(angle) + dy * Math.cos(angle);
+                drawBrushStroke(newX, newY);
+            }
         }
 
         function stopDrawing(e) {
@@ -829,7 +1213,16 @@
                 ctx.arc(startX, startY, radius, 0, Math.PI * 2);
                 ctx.stroke();
             } else if (currentTool === 'star') {
-                drawStar(startX, startY, 5, Math.abs(x - startX), Math.abs(x - startX) / 2);
+                const radius = Math.abs(x - startX);
+                drawStarOutline(startX, startY, 5, radius, radius / 2);
+            } else if (currentTool === 'heart') {
+                drawHeart(startX, startY, Math.abs(x - startX));
+            } else if (currentTool === 'gradient') {
+                const gradient = ctx.createLinearGradient(startX, startY, x, y);
+                gradient.addColorStop(0, currentColor);
+                gradient.addColorStop(1, backgroundColor);
+                ctx.fillStyle = gradient;
+                ctx.fillRect(Math.min(startX, x), Math.min(startY, y), Math.abs(x - startX), Math.abs(y - startY));
             }
         }
 
@@ -837,11 +1230,10 @@
             drawShapePreview(x, y);
         }
 
-        function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
+        function drawStarPath(cx, cy, spikes, outerRadius, innerRadius) {
             let rot = Math.PI / 2 * 3;
             let step = Math.PI / spikes;
             
-            ctx.beginPath();
             ctx.moveTo(cx, cy - outerRadius);
             
             for (let i = 0; i < spikes; i++) {
@@ -853,16 +1245,37 @@
             
             ctx.lineTo(cx, cy - outerRadius);
             ctx.closePath();
+        }
+
+        function drawStarOutline(cx, cy, spikes, outerRadius, innerRadius) {
+            ctx.beginPath();
+            drawStarPath(cx, cy, spikes, outerRadius, innerRadius);
             ctx.stroke();
         }
 
+        function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
+            ctx.beginPath();
+            drawStarPath(cx, cy, spikes, outerRadius, innerRadius);
+            ctx.fill();
+        }
+
+        function drawHeart(x, y, size) {
+            ctx.beginPath();
+            ctx.moveTo(x, y + size / 4);
+            ctx.bezierCurveTo(x, y, x - size / 2, y - size / 2, x - size / 2, y + size / 4);
+            ctx.bezierCurveTo(x - size / 2, y + size / 2, x, y + size * 0.75, x, y + size);
+            ctx.bezierCurveTo(x, y + size * 0.75, x + size / 2, y + size / 2, x + size / 2, y + size / 4);
+            ctx.bezierCurveTo(x + size / 2, y - size / 2, x, y, x, y + size / 4);
+            ctx.fill();
+        }
+
         function spray(x, y) {
-            const density = 20;
+            const density = 30;
             for (let i = 0; i < density; i++) {
                 const offsetX = (Math.random() - 0.5) * brushSize * 2;
                 const offsetY = (Math.random() - 0.5) * brushSize * 2;
                 ctx.fillStyle = currentColor;
-                ctx.fillRect(x + offsetX, y + offsetY, 1, 1);
+                ctx.fillRect(x + offsetX, y + offsetY, 2, 2);
             }
         }
 
@@ -875,11 +1288,20 @@
             ctx.stroke();
         }
 
-        function drawMirrored(x, y) {
-            const centerX = canvas.width / 2;
-            const mirrorX = centerX - (x - centerX);
-            ctx.lineTo(mirrorX, y);
-            ctx.stroke();
+        function applyBlurAt(x, y) {
+            const size = brushSize * 4;
+            const imageData = ctx.getImageData(x - size / 2, y - size / 2, size, size);
+            const pixels = imageData.data;
+            
+            for (let i = 0; i < pixels.length; i += 4) {
+                const avg = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
+                const factor = 0.7;
+                pixels[i] = pixels[i] * factor + avg * (1 - factor);
+                pixels[i + 1] = pixels[i + 1] * factor + avg * (1 - factor);
+                pixels[i + 2] = pixels[i + 2] * factor + avg * (1 - factor);
+            }
+            
+            ctx.putImageData(imageData, x - size / 2, y - size / 2);
         }
 
         function pickColor(x, y) {
@@ -902,47 +1324,20 @@
             if (startR === fillColor.r && startG === fillColor.g && startB === fillColor.b) return;
             
             const stack = [[startX, startY]];
+            const visited = new Set();
             
             while (stack.length) {
                 const [x, y] = stack.pop();
-                let pos = (y * canvas.width + x) * 4;
+                const key = `${x},${y}`;
                 
-                while (y >= 0 && matchStartColor(pixels, pos, startR, startG, startB)) {
-                    pos -= canvas.width * 4;
-                }
+                if (visited.has(key) || x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) continue;
+                visited.add(key);
                 
-                pos += canvas.width * 4;
-                let reachLeft = false;
-                let reachRight = false;
+                const pos = (y * canvas.width + x) * 4;
                 
-                while (matchStartColor(pixels, pos, startR, startG, startB) && (pos / 4 / canvas.width) < canvas.height) {
+                if (matchStartColor(pixels, pos, startR, startG, startB)) {
                     colorPixel(pixels, pos, fillColor);
-                    
-                    const currentX = (pos / 4) % canvas.width;
-                    
-                    if (currentX > 0) {
-                        if (matchStartColor(pixels, pos - 4, startR, startG, startB)) {
-                            if (!reachLeft) {
-                                stack.push([currentX - 1, Math.floor(pos / 4 / canvas.width)]);
-                                reachLeft = true;
-                            }
-                        } else {
-                            reachLeft = false;
-                        }
-                    }
-                    
-                    if (currentX < canvas.width - 1) {
-                        if (matchStartColor(pixels, pos + 4, startR, startG, startB)) {
-                            if (!reachRight) {
-                                stack.push([currentX + 1, Math.floor(pos / 4 / canvas.width)]);
-                                reachRight = true;
-                            }
-                        } else {
-                            reachRight = false;
-                        }
-                    }
-                    
-                    pos += canvas.width * 4;
+                    stack.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
                 }
             }
             
@@ -970,11 +1365,6 @@
         }
 
         function drawGrid() {
-            if (!gridEnabled) {
-                ctx.putImageData(history[historyStep], 0, 0);
-                return;
-            }
-            
             const gridSize = 20;
             ctx.strokeStyle = 'rgba(200, 200, 200, 0.5)';
             ctx.lineWidth = 1;
@@ -992,6 +1382,70 @@
                 ctx.lineTo(canvas.width, y);
                 ctx.stroke();
             }
+        }
+
+        function applyFilter(type) {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+            
+            for (let i = 0; i < pixels.length; i += 4) {
+                if (type === 'grayscale') {
+                    const avg = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
+                    pixels[i] = pixels[i + 1] = pixels[i + 2] = avg;
+                } else if (type === 'sepia') {
+                    const r = pixels[i];
+                    const g = pixels[i + 1];
+                    const b = pixels[i + 2];
+                    pixels[i] = Math.min(255, r * 0.393 + g * 0.769 + b * 0.189);
+                    pixels[i + 1] = Math.min(255, r * 0.349 + g * 0.686 + b * 0.168);
+                    pixels[i + 2] = Math.min(255, r * 0.272 + g * 0.534 + b * 0.131);
+                } else if (type === 'invert') {
+                    pixels[i] = 255 - pixels[i];
+                    pixels[i + 1] = 255 - pixels[i + 1];
+                    pixels[i + 2] = 255 - pixels[i + 2];
+                } else if (type === 'blur') {
+                    const tempCanvas = document.createElement('canvas');
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCanvas.width = canvas.width;
+                    tempCanvas.height = canvas.height;
+                    tempCtx.putImageData(imageData, 0, 0);
+                    ctx.filter = 'blur(5px)';
+                    ctx.drawImage(tempCanvas, 0, 0);
+                    ctx.filter = 'none';
+                    saveState();
+                    return;
+                }
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+            saveState();
+        }
+
+        function placeSticker(sticker) {
+            const x = canvas.width / 2;
+            const y = canvas.height / 2;
+            ctx.font = '60px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(sticker, x, y);
+            saveState();
+        }
+
+        function addTextToCanvas() {
+            const text = document.getElementById('textInput').value;
+            const size = document.getElementById('textSize').value;
+            
+            if (text) {
+                ctx.font = `${size}px Arial`;
+                ctx.fillStyle = currentColor;
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
+                ctx.fillText(text, textX, textY);
+                saveState();
+            }
+            
+            document.getElementById('textInputContainer').style.display = 'none';
+            document.getElementById('textInput').value = '';
         }
 
         function saveState() {
@@ -1021,7 +1475,7 @@
         }
 
         function clearCanvas() {
-            if (confirm('Are you sure you want to clear the canvas?')) {
+            if (confirm('yo, you sure you wanna clear everything?')) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 setCanvasBackground();
                 saveState();
@@ -1035,7 +1489,8 @@
 
         function saveImage(format) {
             const link = document.createElement('a');
-            link.download = `artszili-${Date.now()}.${format}`;
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            link.download = `palnagy-art-${timestamp}.${format}`;
             link.href = canvas.toDataURL(`image/${format}`);
             link.click();
         }
@@ -1076,8 +1531,35 @@
                 document.getElementById('canvasSizeModal').classList.remove('active');
                 saveState();
             } else {
-                alert('Please enter valid dimensions (1-4000)');
+                alert('please enter valid dimensions between 1 and 4000!');
             }
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const btn = document.getElementById('themeBtn');
+            
+            if (isDarkMode) {
+                document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)';
+                btn.textContent = '☀️ Light Mode';
+            } else {
+                document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)';
+                btn.textContent = '🌙 Night Mode';
+            }
+        }
+
+        function showHelp() {
+            alert('🎨 welcome to pálnagy szilárd\'s art studio!\n\n' +
+                  '✨ tips & tricks:\n\n' +
+                  '- try rainbow mode for auto-changing colors!\n' +
+                  '- use symmetry modes for cool patterns\n' +
+                  '- pixel mode makes everything blocky and retro\n' +
+                  '- stickers are fun to add personality\n' +
+                  '- filters can totally transform your art\n' +
+                  '- text tool lets you write anything\n' +
+                  '- gradient tool makes smooth color transitions\n' +
+                  '- blur tool for soft effects\n\n' +
+                  'have fun creating! 🚀');
         }
 
         function getMousePos(e) {
@@ -1104,7 +1586,7 @@
         function updateCursorPosition(e) {
             const pos = getMousePos(e);
             document.getElementById('cursorPos').textContent = 
-                `X: ${Math.floor(pos.x)}, Y: ${Math.floor(pos.y)}`;
+                `x: ${Math.floor(pos.x)}, y: ${Math.floor(pos.y)}`;
         }
 
         function handleKeyboard(e) {
@@ -1128,38 +1610,11 @@
                         break;
                 }
             } else {
-                switch(e.key.toLowerCase()) {
-                    case 'b':
-                        selectTool('brush', document.querySelector('[data-tool="brush"]'));
-                        break;
-                    case 'e':
-                        selectTool('eraser', document.querySelector('[data-tool="eraser"]'));
-                        break;
-                    case 'f':
-                        selectTool('fill', document.querySelector('[data-tool="fill"]'));
-                        break;
-                    case 'i':
-                        selectTool('eyedropper', document.querySelector('[data-tool="eyedropper"]'));
-                        break;
-                    case 'l':
-                        selectTool('line', document.querySelector('[data-tool="line"]'));
-                        break;
-                    case 'r':
-                        selectTool('rectangle', document.querySelector('[data-tool="rectangle"]'));
-                        break;
-                    case 'o':
-                        selectTool('circle', document.querySelector('[data-tool="circle"]'));
-                        break;
-                    case 's':
-                        selectTool('spray', document.querySelector('[data-tool="spray"]'));
-                        break;
-                    case 'c':
-                        selectTool('calligraphy', document.querySelector('[data-tool="calligraphy"]'));
-                        break;
+                switch(e.key) {
                     case '+':
                     case '=':
                         e.preventDefault();
-                        if (brushSize < 50) {
+                        if (brushSize < 100) {
                             brushSize++;
                             document.getElementById('brushSize').value = brushSize;
                             document.getElementById('sizeValue').textContent = brushSize;
@@ -1176,16 +1631,6 @@
                 }
             }
         }
-
-        document.getElementById('helpBtn').addEventListener('click', () => {
-            alert('🎨 Artszili Studio Help\n\n' +
-                  '🖌️ Tools: Click any tool to select it\n' +
-                  '🎨 Colors: Click color swatches or use color picker\n' +
-                  '⚙️ Settings: Adjust brush size and opacity\n' +
-                  '✨ Effects: Try glow, mirror mode, and more!\n' +
-                  '⌨️ Shortcuts: Check the keyboard hints at the bottom\n\n' +
-                  'Have fun creating!');
-        });
 
         init();
     </script>
