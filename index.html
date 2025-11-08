@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pálnagy Szilárd - Art Studio</title>
+    <title>Artszili!</title>
     <style>
         * {
             margin: 0;
@@ -29,11 +29,16 @@
             align-items: center;
             backdrop-filter: blur(10px);
             border-bottom: 3px solid #667eea;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
         }
 
         .logo-section {
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 10000;
         }
 
         .artist-name {
@@ -44,6 +49,9 @@
             -webkit-text-fill-color: transparent;
             letter-spacing: 2px;
             font-family: 'Arial Black', sans-serif;
+            position: relative;
+            z-index: 10001;
+            pointer-events: none;
         }
 
         .tagline {
@@ -58,6 +66,7 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .theme-switcher {
@@ -69,6 +78,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: transform 0.2s;
+            font-size: 14px;
         }
 
         .theme-switcher:hover {
@@ -120,6 +130,8 @@
             box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
             cursor: crosshair;
             touch-action: none;
+            max-width: 100%;
+            height: auto;
         }
 
         canvas.pixel-mode {
@@ -180,6 +192,7 @@
             transform: translateY(-3px) rotate(5deg);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
             border-color: #667eea;
+            z-index: 10;
         }
 
         .tool-btn.active {
@@ -209,6 +222,7 @@
         .color-swatch:hover {
             transform: scale(1.15) rotate(10deg);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10;
         }
 
         .color-swatch.active {
@@ -349,7 +363,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
-            z-index: 1000;
+            z-index: 10000;
             font-weight: bold;
         }
 
@@ -391,7 +405,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.6);
-            z-index: 1000;
+            z-index: 10000;
             align-items: center;
             justify-content: center;
         }
@@ -446,6 +460,7 @@
         .sticker-btn:hover {
             transform: scale(1.2);
             border-color: #667eea;
+            z-index: 10;
         }
 
         .rainbow-text {
@@ -488,21 +503,6 @@
             gap: 8px;
         }
 
-        @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                max-height: none;
-            }
-
-            .artist-name {
-                font-size: 24px;
-            }
-        }
-
         .color-history {
             display: flex;
             gap: 5px;
@@ -542,10 +542,171 @@
             width: 250px;
         }
 
-        .gradient-preview {
-            height: 30px;
-            border-radius: 6px;
-            margin-bottom: 10px;
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: none;
+                padding: 20px;
+            }
+
+            .artist-name {
+                font-size: 28px;
+            }
+
+            .tool-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            canvas {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .artist-name {
+                font-size: 24px;
+                letter-spacing: 1px;
+            }
+
+            .tagline {
+                font-size: 12px;
+            }
+
+            .theme-switcher {
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+
+            .main-container {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .sidebar {
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .section-title {
+                font-size: 14px;
+            }
+
+            .tool-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+            }
+
+            .tool-btn {
+                padding: 12px;
+                font-size: 20px;
+            }
+
+            .color-palette {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 8px;
+            }
+
+            .sticker-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+
+            .sticker-btn {
+                padding: 8px;
+                font-size: 20px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+
+            input[type="color"] {
+                width: 50px;
+                height: 40px;
+            }
+
+            .canvas-info {
+                font-size: 11px;
+                padding: 8px 15px;
+            }
+
+            .keyboard-hint {
+                font-size: 11px;
+                padding: 12px;
+            }
+
+            canvas {
+                border-radius: 10px;
+            }
+
+            .text-input-container input {
+                width: 200px;
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .artist-name {
+                font-size: 20px;
+            }
+
+            .tagline {
+                font-size: 10px;
+            }
+
+            .header-actions {
+                gap: 5px;
+            }
+
+            .theme-switcher {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+
+            .tool-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+
+            .tool-btn {
+                padding: 10px;
+                font-size: 18px;
+            }
+
+            .color-palette {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 6px;
+            }
+
+            .sticker-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .section-title {
+                font-size: 13px;
+            }
+
+            .slider-value {
+                font-size: 14px;
+                min-width: 35px;
+            }
+
+            .tool-section {
+                margin-bottom: 20px;
+            }
+
+            canvas {
+                max-height: 60vh;
+            }
         }
     </style>
 </head>
@@ -637,8 +798,8 @@
                 <div class="color-input-group">
                     <input type="color" id="colorPicker" value="#000000">
                     <input type="color" id="bgColorPicker" value="#ffffff">
-                    <button class="btn btn-secondary" id="swapColors" style="padding: 10px;">🔄</button>
-                    <button class="btn btn-secondary" id="randomColor" style="padding: 10px;">🎲</button>
+                    <button class="btn btn-secondary" id="swapColors" style="padding: 8px; width: auto;">🔄</button>
+                    <button class="btn btn-secondary" id="randomColor" style="padding: 8px; width: auto;">🎲</button>
                 </div>
                 <div class="color-history" id="colorHistory"></div>
             </div>
@@ -787,6 +948,7 @@
         let pixelMode = false;
         let symmetryMode = 0;
         let startX, startY;
+        let lastX, lastY;
         let isShapeDrawing = false;
         let colorHistory = [];
         let brushPattern = 'circle';
@@ -812,7 +974,31 @@
             saveState();
             setupEventListeners();
             setCanvasBackground();
+            resizeCanvasForMobile();
         }
+
+        function resizeCanvasForMobile() {
+            if (window.innerWidth <= 768) {
+                const maxWidth = window.innerWidth - 40;
+                const ratio = canvas.height / canvas.width;
+                if (canvas.width > maxWidth) {
+                    const tempCanvas = document.createElement('canvas');
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCanvas.width = canvas.width;
+                    tempCanvas.height = canvas.height;
+                    tempCtx.drawImage(canvas, 0, 0);
+                    
+                    canvas.width = maxWidth;
+                    canvas.height = maxWidth * ratio;
+                    ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+                    
+                    document.getElementById('canvasSize').textContent = 
+                        `${canvas.width} × ${canvas.height}`;
+                }
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvasForMobile);
 
         function createColorPalette() {
             const palette = document.getElementById('colorPalette');
@@ -839,19 +1025,23 @@
 
         function drawPatternPreviews() {
             document.querySelectorAll('.pattern-preview').forEach(preview => {
-                const ctx = preview.getContext('2d');
+                const previewCtx = preview.getContext('2d');
                 const pattern = preview.dataset.pattern;
-                ctx.fillStyle = '#667eea';
+                previewCtx.fillStyle = '#667eea';
                 
                 if (pattern === 'circle') {
-                    ctx.beginPath();
-                    ctx.arc(30, 15, 8, 0, Math.PI * 2);
-                    ctx.fill();
+                    previewCtx.beginPath();
+                    previewCtx.arc(30, 15, 8, 0, Math.PI * 2);
+                    previewCtx.fill();
                 } else if (pattern === 'square') {
-                    ctx.fillRect(22, 7, 16, 16);
+                    previewCtx.fillRect(22, 7, 16, 16);
                 } else if (pattern === 'star') {
-                    drawStar(ctx, 30, 15, 5, 10, 5);
-                    ctx.fill();
+                    previewCtx.save();
+                    previewCtx.translate(30, 15);
+                    previewCtx.beginPath();
+                    drawStarPath(previewCtx, 0, 0, 5, 10, 5);
+                    previewCtx.fill();
+                    previewCtx.restore();
                 }
             });
         }
@@ -888,9 +1078,9 @@
             canvas.addEventListener('mouseout', stopDrawing);
             canvas.addEventListener('mousemove', updateCursorPosition);
 
-            canvas.addEventListener('touchstart', handleTouch);
-            canvas.addEventListener('touchmove', handleTouch);
-            canvas.addEventListener('touchend', stopDrawing);
+            canvas.addEventListener('touchstart', handleTouch, { passive: false });
+            canvas.addEventListener('touchmove', handleTouch, { passive: false });
+            canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
 
             document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
                 btn.addEventListener('click', () => selectTool(btn.dataset.tool, btn));
@@ -913,7 +1103,7 @@
             });
 
             document.getElementById('randomColor').addEventListener('click', () => {
-                const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+                const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
                 selectColor(randomColor);
             });
 
@@ -965,7 +1155,9 @@
                 if (gridEnabled) {
                     drawGrid();
                 } else {
-                    ctx.putImageData(history[historyStep], 0, 0);
+                    if (history[historyStep]) {
+                        ctx.putImageData(history[historyStep], 0, 0);
+                    }
                 }
             });
 
@@ -974,9 +1166,11 @@
                 this.classList.toggle('active');
                 if (pixelMode) {
                     canvas.classList.add('pixel-mode');
-                    brushSize = Math.max(10, brushSize);
-                    document.getElementById('brushSize').value = brushSize;
-                    document.getElementById('sizeValue').textContent = brushSize;
+                    if (brushSize < 10) {
+                        brushSize = 10;
+                        document.getElementById('brushSize').value = brushSize;
+                        document.getElementById('sizeValue').textContent = brushSize;
+                    }
                 } else {
                     canvas.classList.remove('pixel-mode');
                 }
@@ -1046,6 +1240,8 @@
         function startDrawing(e) {
             isDrawing = true;
             const pos = getMousePos(e);
+            lastX = pos.x;
+            lastY = pos.y;
             
             if (currentTool === 'text') {
                 textX = pos.x;
@@ -1066,7 +1262,7 @@
             }
             
             if (currentTool === 'fill') {
-                floodFill(pos.x, pos.y);
+                floodFill(Math.floor(pos.x), Math.floor(pos.y));
                 isDrawing = false;
                 saveState();
                 return;
@@ -1126,12 +1322,16 @@
                         const gridX = Math.floor(pos.x / gridSize) * gridSize;
                         const gridY = Math.floor(pos.y / gridSize) * gridSize;
                         ctx.fillRect(gridX, gridY, gridSize, gridSize);
+                        
+                        if (symmetryMode > 0) {
+                            drawSymmetrical(gridX, gridY, true);
+                        }
                     } else {
                         drawBrushStroke(pos.x, pos.y);
-                    }
-                    
-                    if (symmetryMode > 0) {
-                        drawSymmetrical(pos.x, pos.y);
+                        
+                        if (symmetryMode > 0) {
+                            drawSymmetrical(pos.x, pos.y, false);
+                        }
                     }
                 } else if (currentTool === 'spray') {
                     spray(pos.x, pos.y);
@@ -1142,6 +1342,8 @@
                 }
             }
 
+            lastX = pos.x;
+            lastY = pos.y;
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
         }
@@ -1157,13 +1359,13 @@
                 ctx.save();
                 ctx.translate(x, y);
                 ctx.beginPath();
-                drawStarPath(0, 0, 5, brushSize / 2, brushSize / 4);
+                drawStarPath(ctx, 0, 0, 5, brushSize / 2, brushSize / 4);
                 ctx.fill();
                 ctx.restore();
             }
         }
 
-        function drawSymmetrical(x, y) {
+        function drawSymmetrical(x, y, isPixel) {
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
             
@@ -1173,14 +1375,22 @@
                 const dy = y - centerY;
                 const newX = centerX + dx * Math.cos(angle) - dy * Math.sin(angle);
                 const newY = centerY + dx * Math.sin(angle) + dy * Math.cos(angle);
-                drawBrushStroke(newX, newY);
+                
+                if (isPixel) {
+                    const gridSize = brushSize;
+                    const gridX = Math.floor(newX / gridSize) * gridSize;
+                    const gridY = Math.floor(newY / gridSize) * gridSize;
+                    ctx.fillRect(gridX, gridY, gridSize, gridSize);
+                } else {
+                    drawBrushStroke(newX, newY);
+                }
             }
         }
 
         function stopDrawing(e) {
-            if (!isDrawing) return;
+            if (!isDrawing && !isShapeDrawing) return;
             
-            if (isShapeDrawing) {
+            if (isShapeDrawing && e) {
                 const pos = getMousePos(e);
                 drawFinalShape(pos.x, pos.y);
                 isShapeDrawing = false;
@@ -1191,7 +1401,14 @@
             saveState();
         }
 
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            stopDrawing(null);
+        }
+
         function drawShapePreview(x, y) {
+            if (!history[historyStep]) return;
+            
             const imageData = history[historyStep];
             ctx.putImageData(imageData, 0, 0);
             
@@ -1214,7 +1431,12 @@
                 ctx.stroke();
             } else if (currentTool === 'star') {
                 const radius = Math.abs(x - startX);
-                drawStarOutline(startX, startY, 5, radius, radius / 2);
+                ctx.save();
+                ctx.translate(startX, startY);
+                ctx.beginPath();
+                drawStarPath(ctx, 0, 0, 5, radius, radius / 2);
+                ctx.stroke();
+                ctx.restore();
             } else if (currentTool === 'heart') {
                 drawHeart(startX, startY, Math.abs(x - startX));
             } else if (currentTool === 'gradient') {
@@ -1230,33 +1452,21 @@
             drawShapePreview(x, y);
         }
 
-        function drawStarPath(cx, cy, spikes, outerRadius, innerRadius) {
+        function drawStarPath(context, cx, cy, spikes, outerRadius, innerRadius) {
             let rot = Math.PI / 2 * 3;
             let step = Math.PI / spikes;
             
-            ctx.moveTo(cx, cy - outerRadius);
+            context.moveTo(cx, cy - outerRadius);
             
             for (let i = 0; i < spikes; i++) {
-                ctx.lineTo(cx + Math.cos(rot) * outerRadius, cy + Math.sin(rot) * outerRadius);
+                context.lineTo(cx + Math.cos(rot) * outerRadius, cy + Math.sin(rot) * outerRadius);
                 rot += step;
-                ctx.lineTo(cx + Math.cos(rot) * innerRadius, cy + Math.sin(rot) * innerRadius);
+                context.lineTo(cx + Math.cos(rot) * innerRadius, cy + Math.sin(rot) * innerRadius);
                 rot += step;
             }
             
-            ctx.lineTo(cx, cy - outerRadius);
-            ctx.closePath();
-        }
-
-        function drawStarOutline(cx, cy, spikes, outerRadius, innerRadius) {
-            ctx.beginPath();
-            drawStarPath(cx, cy, spikes, outerRadius, innerRadius);
-            ctx.stroke();
-        }
-
-        function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
-            ctx.beginPath();
-            drawStarPath(cx, cy, spikes, outerRadius, innerRadius);
-            ctx.fill();
+            context.lineTo(cx, cy - outerRadius);
+            context.closePath();
         }
 
         function drawHeart(x, y, size) {
@@ -1280,8 +1490,7 @@
         }
 
         function calligraphy(x, y) {
-            ctx.lineWidth = brushSize;
-            const angle = Math.atan2(y - startY, x - startX);
+            const angle = Math.atan2(y - lastY, x - lastX);
             const width = brushSize * (1 + Math.abs(Math.sin(angle)));
             ctx.lineWidth = width;
             ctx.lineTo(x, y);
@@ -1289,8 +1498,16 @@
         }
 
         function applyBlurAt(x, y) {
-            const size = brushSize * 4;
-            const imageData = ctx.getImageData(x - size / 2, y - size / 2, size, size);
+            const size = Math.max(brushSize * 4, 20);
+            const halfSize = size / 2;
+            const startX = Math.max(0, Math.floor(x - halfSize));
+            const startY = Math.max(0, Math.floor(y - halfSize));
+            const width = Math.min(size, canvas.width - startX);
+            const height = Math.min(size, canvas.height - startY);
+            
+            if (width <= 0 || height <= 0) return;
+            
+            const imageData = ctx.getImageData(startX, startY, width, height);
             const pixels = imageData.data;
             
             for (let i = 0; i < pixels.length; i += 4) {
@@ -1301,7 +1518,7 @@
                 pixels[i + 2] = pixels[i + 2] * factor + avg * (1 - factor);
             }
             
-            ctx.putImageData(imageData, x - size / 2, y - size / 2);
+            ctx.putImageData(imageData, startX, startY);
         }
 
         function pickColor(x, y) {
@@ -1483,14 +1700,18 @@
         }
 
         function setCanvasBackground() {
+            const tempData = history[historyStep];
             ctx.fillStyle = backgroundColor;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (tempData && historyStep > 0) {
+                ctx.putImageData(tempData, 0, 0);
+            }
         }
 
         function saveImage(format) {
             const link = document.createElement('a');
             const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
-            link.download = `palnagy-art-${timestamp}.${format}`;
+            link.download = `artszili-${timestamp}.${format}`;
             link.href = canvas.toDataURL(`image/${format}`);
             link.click();
         }
@@ -1529,6 +1750,8 @@
                 
                 document.getElementById('canvasSize').textContent = `${width} × ${height}`;
                 document.getElementById('canvasSizeModal').classList.remove('active');
+                history = [];
+                historyStep = -1;
                 saveState();
             } else {
                 alert('please enter valid dimensions between 1 and 4000!');
@@ -1549,16 +1772,18 @@
         }
 
         function showHelp() {
-            alert('🎨 welcome to pálnagy szilárd\'s art studio!\n\n' +
+            alert('🎨 welcome to artszili by pálnagy szilárd!\n\n' +
                   '✨ tips & tricks:\n\n' +
                   '- try rainbow mode for auto-changing colors!\n' +
-                  '- use symmetry modes for cool patterns\n' +
+                  '- use symmetry modes (2x, 4x, 8x) for cool mandala patterns\n' +
                   '- pixel mode makes everything blocky and retro\n' +
-                  '- stickers are fun to add personality\n' +
-                  '- filters can totally transform your art\n' +
+                  '- stickers add fun emojis to your art\n' +
+                  '- filters can totally transform your drawing\n' +
                   '- text tool lets you write anything\n' +
                   '- gradient tool makes smooth color transitions\n' +
-                  '- blur tool for soft effects\n\n' +
+                  '- blur tool creates soft effects\n' +
+                  '- color history remembers your recent colors\n' +
+                  '- try different brush patterns!\n\n' +
                   'have fun creating! 🚀');
         }
 
@@ -1566,17 +1791,18 @@
             const rect = canvas.getBoundingClientRect();
             const clientX = e.clientX || (e.touches && e.touches[0].clientX);
             const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
             return {
-                x: clientX - rect.left,
-                y: clientY - rect.top
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
             };
         }
 
         function handleTouch(e) {
             e.preventDefault();
             const touch = e.touches[0];
-            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
-                                             e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
                 clientX: touch.clientX,
                 clientY: touch.clientY
             });
